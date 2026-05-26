@@ -28,6 +28,27 @@ services:
             - .next/
         - action: rebuild
           path: package.json
+  
+  backend-dev:
+    build:
+      context: backend
+      dockerfile: Dockerfile.dev
+    image: treads-backend:dev
+    container_name: treads-backend-dev
+    ports:
+      - "3001:3001"
+    environment:
+      - WATCHPACK_POLLING=true
+    develop:
+      watch:
+        - action: sync
+          path: ./backend
+          target: /app
+          ignore:
+            - node_modules/
+            - .next/
+        - action: rebuild
+          path: package.json
 
     # The commented out section below is an example of how to define a PostgreSQL
     # database that your application can use. `depends_on` tells Docker Compose to
