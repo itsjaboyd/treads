@@ -55,26 +55,25 @@ services:
         - action: rebuild
           path: package.json
   database-dev:
+    build:
+      context: database
+      dockerfile: Dockerfile.dev
     image: postgres
     restart: always
     user: postgres
     secrets:
       - db-password
-    volumes:
-      - db-data:/var/lib/postgresql
     container_name: treads-database
     environment:
-      - POSTGRES_DB=example
+      - POSTGRES_DB=treads
       - POSTGRES_PASSWORD_FILE=/run/secrets/db-password
-    expose:
-      - 5432
+    ports:
+      - "5432:5432"
     healthcheck:
       test: [ "CMD", "pg_isready" ]
       interval: 10s
       timeout: 5s
       retries: 5
-volumes:
-  db-data:
 secrets:
   db-password:
     file: database/password.txt
