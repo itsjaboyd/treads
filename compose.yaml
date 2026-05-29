@@ -8,10 +8,10 @@
 # database or a cache. For examples, see the Awesome Compose repository:
 # https://github.com/docker/awesome-compose
 services:
-  frontend-dev:
+  treads-frontend-dev:
     depends_on:
-      database-dev:
-        condition: service_healthy
+      treads-backend-dev:
+        condition: service_started
     build:
       context: frontend
       dockerfile: Dockerfile.dev
@@ -31,10 +31,10 @@ services:
             - .next/
         - action: rebuild
           path: package.json
-  backend-dev:
-    depends_on:
-      database-dev:
-        condition: service_healthy
+  treads-backend-dev:
+    # depends_on:
+    #   treads-database-dev:
+    #     condition: service_healthy
     build:
       context: backend
       dockerfile: Dockerfile.dev
@@ -44,9 +44,10 @@ services:
       - "3001:3001"
     environment:
       - WATCHPACK_POLLING=true
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     develop:
       watch:
-        - action: sync
+        - action: rebuild
           path: ./backend
           target: /app
           ignore:
@@ -54,26 +55,23 @@ services:
             - .next/
         - action: rebuild
           path: package.json
-  database-dev:
+  treads-database-dev:
     build:
       context: database
       dockerfile: Dockerfile.dev
     image: postgres
-    restart: always
+    #restart: always
     user: postgres
-    secrets:
-      - db-password
-    container_name: treads-database
+    container_name: treads-database-dev
     environment:
       - POSTGRES_DB=treads
-      - POSTGRES_PASSWORD_FILE=/run/secrets/db-password
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     ports:
-      - "5432:5432"
+      - "3002:5432"
+    expose:
+      - "5432"
     healthcheck:
       test: [ "CMD", "pg_isready" ]
       interval: 10s
       timeout: 5s
       retries: 5
-secrets:
-  db-password:
-    file: database/password.txt
