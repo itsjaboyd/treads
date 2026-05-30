@@ -1,4 +1,4 @@
-const config = require("../config/db.config.ts");
+const config = require("../config/db.config");
 const Sequelize = require("sequelize");
 
 const sequelize = new Sequelize(
@@ -33,4 +33,4 @@ db.user.belongsToMany(db.role, {
   through: "user_roles"
 });
 
-module.exports = db;
+export default db;
