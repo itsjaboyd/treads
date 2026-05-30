@@ -42,9 +42,8 @@ services:
     container_name: treads-backend-dev
     ports:
       - "3001:3001"
-    environment:
-      - WATCHPACK_POLLING=true
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    env_file:
+      - ./backend/dev.env
     develop:
       watch:
         - action: rebuild

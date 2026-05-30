@@ -1,4 +1,6 @@
-module.exports = (sequelize, Sequelize) => {
+import { Sequelize } from "sequelize";
+
+module.exports = (sequelize: Sequelize, Sequelize: any) => {
   const User = sequelize.define("users", {
     username: {type: Sequelize.STRING(50)},
     name: {type: Sequelize.STRING(50)},
