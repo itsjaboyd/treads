@@ -1,18 +1,45 @@
-import dotenv from 'dotenv';
-
-dotenv.config();
-
+require("dotenv").config();
 module.exports = {
-    HOST: process.env.DB_HOST || 'locahost',
-    PORT: process.env.DB_PORT ||  5432,
-    USER: process.env.DB_USER,
-    PASSWORD: process.env.DB_PASSWORD,
-    DB: process.env.DB_NAME,
+  development: {
+    username: process.env.DEV_DB_USER,
+    password: process.env.DEV_DB_PASSWORD,
+    database: process.env.DEV_DB_NAME,
+    host: process.env.DEV_DB_HOST,
+    port: process.env.DEV_DB_PORT,
     dialect: "postgres",
     pool: {
-        max: 5,
-        min: 0,
-        acquire: 30000,
-        idle: 10000
+      max: 5,
+      min: 0,
+      acquire: 30000,
+      idle: 10000,
     },
+  },
+  testing: {
+    username: process.env.TEST_DB_USER,
+    password: process.env.TEST_DB_PASSWORD,
+    database: process.env.TEST_DB_NAME,
+    host: process.env.TEST_DB_HOST,
+    port: process.env.TEST_DB_PORT,
+    dialect: "postgres",
+    pool: {
+      max: 5,
+      min: 0,
+      acquire: 30000,
+      idle: 10000,
+    },
+  },
+  production: {
+    username: process.env.PROD_DB_USER,
+    password: process.env.PROD_DB_PASSWORD,
+    database: process.env.PROD_DB_NAME,
+    host: process.env.PROD_DB_HOST,
+    port: process.env.PROD_DB_PORT,
+    dialect: "postgres",
+    pool: {
+      max: 5,
+      min: 0,
+      acquire: 30000,
+      idle: 10000,
+    },
+  },
 };

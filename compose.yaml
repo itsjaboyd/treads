@@ -19,22 +19,22 @@ services:
     container_name: treads-frontend-dev
     ports:
       - "3000:3000"
-    environment:
-      - WATCHPACK_POLLING=true
+    env_file:
+      - ./frontend/frontend.env
     develop:
       watch:
         - action: sync
-          path: ./frontend
+          path: ./frontend/
           target: /app
+          initial_sync: true
           ignore:
             - node_modules/
-            - .next/
         - action: rebuild
-          path: package.json
+          path: ./frontend/package.json
   treads-backend-dev:
-    # depends_on:
-    #   treads-database-dev:
-    #     condition: service_healthy
+    depends_on:
+      treads-database-dev:
+        condition: service_healthy
     build:
       context: backend
       dockerfile: Dockerfile.dev
@@ -43,34 +43,36 @@ services:
     ports:
       - "3001:3001"
     env_file:
-      - ./backend/dev.env
+      - ./backend/backend.env
     develop:
       watch:
-        - action: rebuild
-          path: ./backend
+        - action: sync+restart
+          path: ./backend/
           target: /app
           ignore:
             - node_modules/
-            - .next/
+            - sequelize/
         - action: rebuild
-          path: package.json
+          path: ./backend/package.json
   treads-database-dev:
     build:
       context: database
       dockerfile: Dockerfile.dev
     image: postgres
-    #restart: always
+    volumes:
+      - pg-data-dev:/var/lib/postgresql
     user: postgres
     container_name: treads-database-dev
-    environment:
-      - POSTGRES_DB=treads
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    env_file:
+      - ./database/database.env
     ports:
-      - "3002:5432"
+      - "5432:5432"
     expose:
       - "5432"
     healthcheck:
-      test: [ "CMD", "pg_isready" ]
+      test: ["CMD", "pg_isready"]
       interval: 10s
       timeout: 5s
       retries: 5
+volumes:
+  pg-data-dev:

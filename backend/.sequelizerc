@@ -1,0 +1,9 @@
+const path = require("path");
+
+module.exports = {
+  debug: true,
+  config: path.resolve("config", "db.config.ts"),
+  "models-path": path.resolve(".", "models"),
+  "seeders-path": path.resolve("sequelize", "seeders"),
+  "migrations-path": path.resolve("sequelize", "migrations"),
+};

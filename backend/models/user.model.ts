@@ -1,19 +1,27 @@
-import { Sequelize } from "sequelize";
+import { Sequelize, DataTypes } from "sequelize";
 
 module.exports = (sequelize: Sequelize, Sequelize: any) => {
-  const User = sequelize.define("users", {
-    id: {type: Sequelize.INTEGER, primaryKey: true},
-    name: {type: Sequelize.STRING(50)},
-    email: {type: Sequelize.STRING},
-    password_hash: {type: Sequelize.STRING},
-    created_at: {type: Sequelize.DATE},
-    updated_at: {type: Sequelize.DATE},
-    is_active: {type: Sequelize.BOOLEAN},
-    last_login: {type: Sequelize.DATE},
-    failed_login_attempts: {type: Sequelize.INTEGER},
-    locked_until: {type: Sequelize.DATE}
-  }, {
-    timestamps: false,
-  });
-  return User;
+  return sequelize.define(
+    "Users",
+    {
+      id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+        allowNull: false,
+      },
+      name: DataTypes.STRING(50),
+      email: { type: DataTypes.STRING, allowNull: false, unique: true },
+      password_hash: { type: DataTypes.STRING, allowNull: false },
+      is_active: { type: DataTypes.BOOLEAN, defaultValue: true },
+      last_login: DataTypes.DATE,
+      failed_login_attempts: { type: DataTypes.INTEGER, defaultValue: 0 },
+      locked_until: DataTypes.DATE,
+    },
+    {
+      timestamps: true,
+      createdAt: "created_at",
+      updatedAt: "updated_at",
+    },
+  );
 };
