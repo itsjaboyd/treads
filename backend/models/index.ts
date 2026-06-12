@@ -20,13 +20,13 @@ const sequelize = new Sequelize(
   },
 );
 
-const db = {
-  Sequelize: Sequelize,
-  sequelize: sequelize,
-  user: require("../models/user.model")(sequelize, Sequelize),
-  role: require("../models/role.model")(sequelize, Sequelize),
-  ROLES: ["user", "admin", "moderator"],
-};
+// const db = {
+//   Sequelize: Sequelize,
+//   sequelize: sequelize,
+//   user: require("../models/user.model")(sequelize, Sequelize),
+//   role: require("../models/role.model")(sequelize, Sequelize),
+//   ROLES: ["user", "admin", "moderator"],
+// };
 
 // db.role.belongsToMany(db.user, {
 //   through: "user_roles",
@@ -35,4 +35,4 @@ const db = {
 //   through: "user_roles",
 // });
 
-export default db;
+export default sequelize;
