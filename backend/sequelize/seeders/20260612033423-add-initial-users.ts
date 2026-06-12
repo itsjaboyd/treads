@@ -1,6 +1,7 @@
 // src/seeders/YYYYMMDDHHmmss-add-initial-users.ts
 import { QueryInterface } from "sequelize";
 import bcrypt from "bcrypt";
+import { randomUUID } from "crypto";
 
 export async function up(queryInterface: QueryInterface) {
   // Hash passwords BEFORE inserting
@@ -14,46 +15,51 @@ export async function up(queryInterface: QueryInterface) {
     "users",
     [
       {
+        id: randomUUID(),
         name: "System Administrator",
         email: "admin@fleet.local",
         password: adminHash,
-        is_active: true,
+        active: true,
         failed_login_attempts: 0,
         created: new Date(),
         updated: new Date(),
       },
       {
+        id: randomUUID(),
         name: "Fleet Manager",
         email: "manager@fleet.local",
         password: fleetHash,
-        is_active: true,
+        active: true,
         failed_login_attempts: 0,
         created: new Date(),
         updated: new Date(),
       },
       {
+        id: randomUUID(),
         name: "Jacob Johnson",
         email: "jacob.johnson@fleet.local",
         password: jacobHash,
-        is_active: true,
+        active: true,
         failed_login_attempts: 0,
         created: new Date(),
         updated: new Date(),
       },
       {
+        id: randomUUID(),
         name: "Ryley Smith",
         email: "ryley.smith@fleet.local",
         password: ryleyHash,
-        is_active: true,
+        active: true,
         failed_login_attempts: 0,
         created: new Date(),
         updated: new Date(),
       },
       {
+        id: randomUUID(),
         name: "Emily Davis",
         email: "emily.davis@fleet.local",
         password: emilyHash,
-        is_active: true,
+        active: true,
         failed_login_attempts: 0,
         created: new Date(),
         updated: new Date(),

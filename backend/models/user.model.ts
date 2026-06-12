@@ -4,7 +4,7 @@ import sequelize from "."; // Adjust path to your Sequelize instance
 
 // Define the complete attribute interface (runtime + type)
 interface UserAttributes {
-  id: number;
+  id: string;
   name: string;
   email: string;
   password: string;
@@ -27,7 +27,7 @@ class User
   extends Model<UserAttributes, UserCreationAttributes>
   implements UserAttributes
 {
-  public id!: number;
+  public id!: string;
   public name!: string;
   public email!: string;
   public password!: string;
@@ -46,7 +46,6 @@ User.init(
       type: DataTypes.UUID,
       primaryKey: true,
       defaultValue: DataTypes.UUIDV4,
-      autoIncrement: true,
     },
     name: {
       type: DataTypes.STRING,
@@ -95,8 +94,9 @@ User.init(
     createdAt: "created",
     updatedAt: "updated",
     indexes: [
+      { fields: ["id"], unique: true },
       { fields: ["email"], unique: true },
-      { fields: ["is_active"] },
+      { fields: ["active"] },
       { fields: ["locked_until"] },
     ],
   },

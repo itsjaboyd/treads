@@ -7,9 +7,9 @@ export async function up(
 ) {
   await queryInterface.createTable("users", {
     id: {
-      type: Sequelize.INTEGER,
+      type: Sequelize.UUID,
       primaryKey: true,
-      autoIncrement: true,
+      defaultValue: Sequelize.UUIDV4,
       allowNull: false,
     },
     name: {
@@ -25,7 +25,7 @@ export async function up(
       type: Sequelize.STRING,
       allowNull: false,
     },
-    is_active: {
+    active: {
       type: Sequelize.BOOLEAN,
       defaultValue: true,
     },
@@ -53,7 +53,7 @@ export async function up(
 
   // Add indexes for performance
   await queryInterface.addIndex("users", ["email"], { unique: true });
-  await queryInterface.addIndex("users", ["is_active"]);
+  await queryInterface.addIndex("users", ["active"]);
   await queryInterface.addIndex("users", ["locked_until"]);
 }
 

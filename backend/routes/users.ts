@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import db from "../models";
+import User from "../models/user.model";
 
 var express = require("express");
 var router = express.Router();
@@ -7,13 +7,15 @@ var router = express.Router();
 router.use(async (req: Request, res: Response, next: NextFunction) => {
   console.log("Made it to the users router-level middleware!");
 
-  const users = await db.user.findAll();
-  var users_list: any[] = [];
-  users.forEach((user: any) => {
-    users_list.push(`${user.id}, ${user.name}: ${user.email}`);
+  const users = await User.findAll({
+    attributes: { exclude: ["password"] },
   });
+  // var users_list: any[] = [];
+  // users.forEach((user: any) => {
+  //   users_list.push(`${user.id}, ${user.name}: ${user.email}`);
+  // });
   if (users) {
-    res.send(users_list);
+    res.send(users);
     return;
   }
   next();
