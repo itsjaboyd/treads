@@ -27,16 +27,16 @@ class User
   extends Model<UserAttributes, UserCreationAttributes>
   implements UserAttributes
 {
-  public id!: string;
-  public name!: string;
-  public email!: string;
-  public password!: string;
-  public active!: boolean;
-  public last_login!: Date | null;
-  public failed_login_attempts!: number;
-  public locked_until!: Date | null;
-  public created!: Date;
-  public updated!: Date;
+  declare id: string;
+  declare name: string;
+  declare email: string;
+  declare password: string;
+  declare active: boolean;
+  declare last_login: Date | null;
+  declare failed_login_attempts: number;
+  declare locked_until: Date | null;
+  declare created: Date;
+  declare updated: Date;
 }
 
 // Initialize the model with PostgreSQL-compatible types
@@ -97,7 +97,6 @@ User.init(
       { fields: ["id"], unique: true },
       { fields: ["email"], unique: true },
       { fields: ["active"] },
-      { fields: ["locked_until"] },
     ],
   },
 );
